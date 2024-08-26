@@ -1,0 +1,26 @@
+/* Custom styles for cluster icons */
+.custom-cluster-icon {
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom styles for search box */
+.leaflet-control-search {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+}
+
+.leaflet-control-search input {
+    border: none;
+    outline: none;
+}
+
+/* Map container styling */
+#map {
+    width: 100%;
+    height: 600px;
+    margin: 0 auto;
+}
