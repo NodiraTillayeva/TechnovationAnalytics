@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Styled Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+        }
+        .custom-icon {
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 10px;
+            display: inline-block;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        .icon-green { background-color: #6dbd44; }
+        .icon-blue { background-color: #3498db; }
+        .icon-orange { background-color: #e67e22; }
+        .icon-pink { background-color: #e84393; }
+        .icon-purple { background-color: #9b59b6; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script>
+        var map = L.map('map').setView([20, 0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        var markers = L.markerClusterGroup();
+
+        var locations = [
+            {lat: 48.8566, lng: 2.3522, count: 15, color: 'icon-green'},
+            {lat: 52.5200, lng: 13.4050, count: 10, color: 'icon-pink'},
+            {lat: 40.7128, lng: -74.0060, count: 18, color: 'icon-orange'},
+            {lat: 35.6895, lng: 139.6917, count: 7, color: 'icon-pink'},
+            {lat: -33.8688, lng: 151.2093, count: 3, color: 'icon-blue'}
+        ];
+
+        locations.forEach(function(location) {
+            var icon = L.divIcon({
+                className: 'custom-icon ' + location.color,
+                html: location.count
+            });
+            var marker = L.marker([location.lat, location.lng], {icon: icon});
+            markers.addLayer(marker);
+        });
+
+        map.addLayer(markers);
+    </script>
+</body>
+</html>

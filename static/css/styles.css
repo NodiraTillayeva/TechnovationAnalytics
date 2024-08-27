@@ -1,0 +1,170 @@
+/* Custom styles for cluster icons */
+.custom-cluster-icon {
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(212, 20, 20, 0.5);
+}
+
+/* Custom styles for search box */
+.leaflet-control-search {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+}
+
+.leaflet-control-search input {
+    border: none;
+    outline: none;
+}
+
+
+
+/* Map container styling */
+#map-container {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 30px;
+    overflow: hidden; /* Ensure the map does not overflow */
+    position: relative; /* Helps in absolute positioning */
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Chart container styling */
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensure even spacing between charts */
+    align-items: flex-start; /* Align charts to the top */
+    margin-top: 40px;
+    gap: 20px; /* Add space between chart items */
+    width: 100%; /* Ensure full width utilization */
+}
+
+.chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 calc(50% - 10px);  /* Each chart takes up about half the width with space for gaps */
+    height: 300px;  /* Set a fixed height for uniformity */
+    padding: 50px; /* Add padding inside each chart wrapper */
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0; /* Light border to mimic the example's look */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #ffffff; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+}
+
+
+.chart-wrapper canvas {
+    flex-grow: 1;
+    }
+
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+    .chart-wrapper {
+        flex: 0 0 100%;  /* Each chart takes up full width on smaller screens */
+        height: 300px;  /* Consistent height for smaller screens */
+        margin-bottom: 20px;
+    }
+}
+/* 
+.chart-wrapper canvas {
+    width: 50% !important;
+    height: 70% !important;
+} */
+
+
+/* Ensure the map does not overlap with other sections */
+.clearfix {
+    clear: both;
+}
+
+/* Style for the navbar description */
+.navbar-description {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin: 20px auto; /* Adjusted margin for spacing around the frame */
+    overflow: hidden;
+    border: 1px solid #ddd; /* Border to match the chart frames */
+    border-radius: 8px; /* Rounded corners for consistency */
+    padding: 10px; /* Padding for internal spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #fff; /* Background color similar to charts */
+}
+
+.carousel-container .carousel-viewport {
+    width: 100%;
+
+    overflow: hidden;
+}
+
+.carousel-container .company-list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    transition: transform 0.5s ease;
+}
+
+.carousel-container .company-list li {
+    flex: 0 0 200px; /* Fixed width for carousel items */
+    margin: 20px; /* Space between items */
+    text-align: center;
+}
+
+.carousel-container .company-list-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for button depth */
+    border-radius: 50%; /* Rounded buttons for a modern look */
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    z-index: 10; /* Ensure buttons are above other content */
+}
+
+.carousel-container .prev {
+    left: 5px; /* Align button with the left side of the frame */
+}
+
+.carousel-container .next {
+    right: 5px; /* Align button with the right side of the frame */
+}
+
+.carousel-container h5 {
+    text-align: center; /* Center the text horizontally */
+    margin-bottom: 15px;
+    margin-top: 15px; /* Optional: Add some space below the heading */
+    font-weight: bold; /* Optional: Make the text bold to match the style of other headings */
+}
