@@ -1,37 +1,40 @@
 // Initialize the map
-var map = L.map('map').setView([20, 0], 2);
+var map = L.map('map', {
+    center: [20, 0], // Center of the map
+    zoom: 2,         // Initial zoom level
+    minZoom: 2,      // Minimum zoom level
+    maxZoom: 18,     // Maximum zoom level
+    maxBounds: [
+        [-90, -180], // South-West corner
+        [90, 180]    // North-East corner
+    ],
+    maxBoundsViscosity: 0.5 // Controls how close the view can go to the bounds before bouncing back
+});
 
-// Add OpenStreetMap tile layer (default)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// Define the OpenStreetMap and Satellite layers
+var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 18
-}).addTo(map);
+}).addTo(map); // Set as default
 
-// Add additional basemaps
-var baseMaps = {
-    "Stamen Terrain": L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under ODbL.',
-        maxZoom: 18
-    })
-};
-
-// Add a Layer Control to switch between basemaps
-L.control.layers(baseMaps).addTo(map);
+var satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    maxZoom: 18
+});
 
 // Define custom icons
-var mentorIcon = L.icon({
-    iconUrl: 'C:\Users\User\Desktop\techDashboard\static\js\marker.png', // Replace with the path to your icon
-    iconSize: [30, 40], // Size of the icon
-    iconAnchor: [15, 40], // Point of the icon which will correspond to marker's location
-    popupAnchor: [0, -35] // Point from which the popup should open relative to the iconAnchor
-});
+var jobIcon = createCustomIcon('static/js/marker.png', 30, 30);
+var educationIcon = createCustomIcon('static/js/marker.png', 30, 30);
 
-var participantIcon = L.icon({
-    iconUrl: 'C:\Users\User\Desktop\techDashboard\static\js\marker.png', // Replace with the path to your icon
-    iconSize: [30, 40], 
-    iconAnchor: [15, 40], 
-    popupAnchor: [0, -35]
-});
+// Helper function to create custom icons
+function createCustomIcon(iconUrl, width, height) {
+    return L.icon({
+        iconUrl: iconUrl,
+        iconSize: [width, height],
+        iconAnchor: [width / 2, height],
+        popupAnchor: [0, -height + 10]
+    });
+}
 
 // Create a MarkerClusterGroup with custom styles
 var markers = L.markerClusterGroup({
@@ -46,32 +49,19 @@ var markers = L.markerClusterGroup({
     }
 });
 
-// Example participant data
-var participants = [
-    {
-        "name": "Shahzoda",
-        "role": "Participant, Mentor",
-        "year": "2022–2023",
-        "university": "Tashkent University of Information Technologies named after Muhammad al-Khwarizmi, Tashkent",
-        "specialization": "Engineering",
-        "quote": "I’m not going to limit myself just because people won’t accept the fact that I can do something else.",
-        "location": [41.2995, 69.2401]  // Coordinates for Tashkent
-    }
-    // Add more participants with their details and coordinates here
+// Example alumni data (random points across the world)
+var alumni = [
+    { "name": "Alumni 1", "type": "job", "location": [41.2995, 69.2401], "properties": { "name": "Alumni 1" } }, // Tashkent
+    { "name": "Alumni 2", "type": "education", "location": [48.8566, 2.3522], "properties": { "name": "Alumni 2" } }, // Paris
+    // Add more alumni with their details and coordinates here
 ];
 
 // Add markers to the MarkerClusterGroup with popups and custom icons
-participants.forEach(function(participant) {
-    var icon = participant.role.includes("Mentor") ? mentorIcon : participantIcon; // Choose icon based on role
-    var marker = L.marker(participant.location, { icon: icon });
-    var popupContent = `
-        <strong>${participant.name}</strong><br>
-        Role: ${participant.role}<br>
-        Year of participation: ${participant.year}<br>
-        The name of the university: ${participant.university}<br>
-        Specialization: ${participant.specialization}<br>
-        Quote: “${participant.quote}”
-    `;
+alumni.forEach(function(alum) {
+    var icon = alum.type === "job" ? jobIcon : educationIcon; // Choose icon based on alumni type
+    var marker = L.marker(alum.location, { icon: icon });
+    marker.feature = { properties: { name: alum.name } }; // Adding properties to marker
+    var popupContent = `<strong>${alum.name}</strong><br>Type: ${alum.type}`;
     marker.bindPopup(popupContent);
     markers.addLayer(marker);
 });
@@ -79,10 +69,52 @@ participants.forEach(function(participant) {
 // Add the MarkerClusterGroup to the map
 map.addLayer(markers);
 
+// Create custom basemap toggle buttons
+var basemapControlDiv = L.control({position: 'topright'});
+
+basemapControlDiv.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'basemap-control');
+
+    // Create OpenStreetMap button
+    var osmButton = createBasemapButton(div, 'Map', function() {
+        map.removeLayer(satelliteMap);
+        map.addLayer(openStreetMap);
+        setActiveButton(osmButton, satelliteButton);
+    });
+
+    // Create Satellite button
+    var satelliteButton = createBasemapButton(div, 'Satellite', function() {
+        map.removeLayer(openStreetMap);
+        map.addLayer(satelliteMap);
+        setActiveButton(satelliteButton, osmButton);
+    });
+
+    // Set default active state
+    osmButton.classList.add('active');
+
+    return div;
+};
+
+// Helper function to create basemap buttons
+function createBasemapButton(container, label, onClick) {
+    var button = L.DomUtil.create('button', 'basemap-button', container);
+    button.innerHTML = label;
+    button.onclick = onClick;
+    return button;
+}
+
+// Helper function to set the active button style
+function setActiveButton(activeButton, inactiveButton) {
+    activeButton.classList.add('active');
+    inactiveButton.classList.remove('active');
+}
+
+basemapControlDiv.addTo(map);
+
 // Create and add a search control
 var searchControl = new L.Control.Search({
     layer: markers,
-    propertyName: 'name',
+    propertyName: 'name', // Matches the name property in properties
     marker: false,
     moveToLocation: function(latlng, title, map) {
         if (latlng) {
@@ -94,26 +126,31 @@ var searchControl = new L.Control.Search({
     }
 });
 
-
+// Add the search control to the map
+searchControl.addTo(map);
 let currentIndex = 0;
 
 function scrollList(direction) {
+    const viewport = document.querySelector('.carousel-viewport');
     const list = document.querySelector('.company-list');
     const items = document.querySelectorAll('.company-list li');
-    const itemWidth = items[0].offsetWidth + 10; // item width + margin
-    const maxIndex = items.length - Math.floor(document.querySelector('.carousel-viewport').offsetWidth / itemWidth);
+    const itemWidth = items[0].offsetWidth + 40; // Item width + margin (20px each side)
 
+    const maxScroll = list.scrollWidth - viewport.offsetWidth;
+
+    // Calculate new scroll position
     currentIndex += direction;
+    let newScroll = currentIndex * itemWidth;
 
-    if (currentIndex < 0) {
-        currentIndex = maxIndex;
-    } else if (currentIndex > maxIndex) {
+    // Prevent scrolling out of bounds
+    if (newScroll < 0) {
+        newScroll = 0;
         currentIndex = 0;
+    } else if (newScroll > maxScroll) {
+        newScroll = maxScroll;
+        currentIndex = Math.floor(maxScroll / itemWidth);
     }
 
-    const newTransformValue = -currentIndex * itemWidth;
-    list.style.transform = `translateX(${newTransformValue}px)`;
+    // Apply the scroll
+    list.style.transform = `translateX(-${newScroll}px)`;
 }
-
-// Add the search control to the map
-searchControl.addTo(map);

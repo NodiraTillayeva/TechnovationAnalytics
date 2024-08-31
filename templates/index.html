@@ -40,6 +40,7 @@
 <div class="container">
     <h1 class="text-center my-4">Technovation Girls Uzbekistan Dashboard</h1>
     
+    
 
     <!-- Map Container -->
     <div id="map" style="height: 600px; width: 100%;"></div>
@@ -67,26 +68,91 @@
         </div>
     </div>
     
-    <div class="container company-list-container carousel-container">
-        <h5>Компании в которых работают выпускницы Technovation</h5>
-        <button class="company-list-nav prev" onclick="scrollList(-1)">&#8249;</button>
+    <div class="carousel-container">
+        <h5>Компании, в которых работают выпускницы Technovation</h5>
         <div class="carousel-viewport">
             <ul class="company-list">
-                <li>TBC Uzbekistan</li>
-                <li>Лицей НИУ ВШЭ (Москва)</li>
-                <li>Лицей НИУ ВШЭ (Москва)</li>
-                <li>Terranova Uzbekistan</li>
-                <li>UzAuto Motors, Асака, Андижанская область</li>
-                <li>UzAuto Motors, Асака, Андижанская область</li>
-                <li>UzAuto Motors, Асака, Андижанская область</li>
-                <li>UzAuto Motors, Асака, Андижанская область</li>
-                <li>ТУИТ имени Мухаммеда аль-Хорезми, Ташкент</li>
-                <!-- Add more items as needed -->
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="TBC Uzbekistan Logo">
+                    </div>
+                    <div class="company-name">TBC Uzbekistan</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="Лицей НИУ ВШЭ (Москва) Logo">
+                    </div>
+                    <div class="company-name">Лицей НИУ ВШЭ (Москва)</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="Terranova Uzbekistan Logo">
+                    </div>
+                    <div class="company-name">Terranova Uzbekistan</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="UzAuto Motors Logo">
+                    </div>
+                    <div class="company-name">UzAuto Motors</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="TUIT имени Мухаммеда аль-Хорезми, Ташкент Logo">
+                    </div>
+                    <div class="company-name">TUIT имени Мухаммеда аль-Хорезми, Ташкент</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="TUIT имени Мухаммеда аль-Хорезми, Ташкент Logo">
+                    </div>
+                    <div class="company-name">TUIT имени Мухаммеда аль-Хорезми, Ташкент</div>
+                </li>
+                <li class="company-item">
+                    <div class="company-logo">
+                        <img src="static/img/logo2.png" alt="TUIT имени Мухаммеда аль-Хорезми, Ташкент Logo">
+                    </div>
+                    <div class="company-name">TUIT имени Мухаммеда аль-Хорезми, Ташкент</div>
+                </li>
             </ul>
         </div>
-        <button class="company-list-nav next" onclick="scrollList(1)">&#8250;</button>
+        <button class="scroll-btn prev" onclick="scrollList(-1)">&lt;</button>
+        <button class="scroll-btn next" onclick="scrollList(1)">&gt;</button>
     </div>
     
+    <div class="container statistics-container">
+        <h5>Results of Technovation Girls Uzbekistan</h5>
+        <div class="d-flex justify-content-around align-items-center">
+            <div class="statistics-item">
+                Seasons (since 2016):<br>
+                <span>8</span>
+            </div>
+            <div class="statistics-divider"></div>
+            <div class="statistics-item">
+                Participants:<br>
+                <span>3 500 girls</span>
+            </div>
+            <div class="statistics-divider"></div>
+            <div class="statistics-item">
+                Mentors:<br>
+                <span>250 +</span>
+            </div>
+            <div class="statistics-divider"></div>
+            <div class="statistics-item">
+                Mobile Apps:<br>
+                <span>320</span>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+    <!-- Footer Section -->
+<div class="footer">
+    Technovation &copy; 2024
+</div>
+
+        
 
     
     

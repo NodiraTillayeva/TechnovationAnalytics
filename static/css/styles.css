@@ -4,6 +4,13 @@
     box-shadow: 0 0 5px rgba(212, 20, 20, 0.5);
 }
 
+/* General container styling for larger width */
+.container {
+    width: 80%; /* Increase to 90% width for more space */
+    max-width: 95%; /* Limit to 95% to ensure some padding from edges */
+    margin: 0 auto; /* Center the container */
+}
+
 /* Custom styles for search box */
 .leaflet-control-search {
     background-color: white;
@@ -51,7 +58,7 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 calc(50% - 10px);  /* Each chart takes up about half the width with space for gaps */
-    height: 300px;  /* Set a fixed height for uniformity */
+    height: 400px;  /* Set a fixed height for uniformity */
     padding: 50px; /* Add padding inside each chart wrapper */
     box-sizing: border-box;
     border: 1px solid #e0e0e0; /* Light border to mimic the example's look */
@@ -108,63 +115,232 @@
 .carousel-container {
     position: relative;
     width: 100%;
-    margin: 20px auto; /* Adjusted margin for spacing around the frame */
+    margin: 20px auto;
     overflow: hidden;
-    border: 1px solid #ddd; /* Border to match the chart frames */
-    border-radius: 8px; /* Rounded corners for consistency */
-    padding: 10px; /* Padding for internal spacing */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    background-color: #fff; /* Background color similar to charts */
-}
-
-.carousel-container .carousel-viewport {
-    width: 100%;
-
-    overflow: hidden;
-}
-
-.carousel-container .company-list {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    transition: transform 0.5s ease;
-}
-
-.carousel-container .company-list li {
-    flex: 0 0 200px; /* Fixed width for carousel items */
-    margin: 20px; /* Space between items */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     text-align: center;
 }
 
-.carousel-container .company-list-nav {
+.carousel-container h5 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.carousel-viewport {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+.company-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    transition: transform 0.5s ease; /* Smooth scrolling effect */
+}
+
+.company-item {
+    flex: 0 0 auto;
+    width: 200px; /* Fixed width for consistency */
+    height: 150px; /* Fixed height for consistency */
+    margin: 0 20px; /* Adjust spacing between items */
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.company-logo img {
+    max-width: 100%;
+    max-height: 80px;
+    display: block;
+    margin: 0 auto;
+}
+
+.company-name {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+    white-space: normal;
+}
+
+.scroll-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background-color: #fff;
-    border: none;
+    border: 1px solid #ddd;
     font-size: 1.5rem;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for button depth */
-    border-radius: 50%; /* Rounded buttons for a modern look */
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 35px;
     text-align: center;
-    z-index: 10; /* Ensure buttons are above other content */
+    z-index: 10;
 }
 
-.carousel-container .prev {
-    left: 5px; /* Align button with the left side of the frame */
+.scroll-btn.prev {
+    left: 10px;
 }
 
-.carousel-container .next {
-    right: 5px; /* Align button with the right side of the frame */
+.scroll-btn.next {
+    right: 10px;
 }
 
-.carousel-container h5 {
-    text-align: center; /* Center the text horizontally */
-    margin-bottom: 15px;
-    margin-top: 15px; /* Optional: Add some space below the heading */
-    font-weight: bold; /* Optional: Make the text bold to match the style of other headings */
+
+
+.statistics-container {
+    width: 100%; /* Set to match the carousel width */
+    max-width: 100%; /* Allow it to use full width of the parent */
+    margin: 20px auto; /* Center and add top and bottom margins */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1), /* Top shadow */
+                0 2px 4px rgba(0, 0, 0, 0.1); /* Bottom shadow */
+    text-align: center;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-around; /* Space items evenly */
+    align-items: center; /* Center items vertically */
+    flex-wrap: wrap; /* Allow items to wrap if necessary */
 }
+
+.statistics-item {
+    flex: 1 1 auto; /* Allow items to grow and shrink */
+    margin: 10px 20px; /* Adjust margins to ensure spacing */
+    font-size: 1.2rem;
+}
+
+.statistics-item span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: green;
+}
+
+.statistics-divider {
+    border-left: 1px solid #bdbbbb;
+    height: 30px;
+    margin: 0 15px;
+    flex-shrink: 0; /* Prevent divider from shrinking */
+}
+
+
+/* Custom styles for the footer */
+.footer {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #e7e7e7;
+    margin-top: 20px;
+}
+
+
+
+/* General styling for the map container */
+#map {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+
+/* Basemap control styling */
+.leaflet-control-layers {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.leaflet-control-layers-base label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.leaflet-control-layers-separator {
+    border-top: 1px solid #ccc;
+    margin: 5px 0;
+}
+
+/* Custom cluster icon style */
+.custom-cluster-icon {
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Basemap control buttons container */
+.basemap-control {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px; /* Consistent width */
+    font-family: Arial, sans-serif; /* Consistent font */
+}
+
+/* Basemap control buttons container */
+.basemap-control {
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    display: flex; /* Display buttons side by side */
+    flex-direction: column; /* Stack buttons vertically */
+    overflow: hidden; /* Ensures rounded corners appear correctly */
+    border: 1px solid #ddd; /* Light border for definition */
+    font-family: Arial, sans-serif; /* Consistent font */
+}
+
+/* Individual button styling */
+.basemap-button {
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text for contrast */
+    border: none; /* No internal borders */
+    padding: 8px 16px; /* Padding for a good click area */
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    width: 100%; /* Full width of the container */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.basemap-button:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+.basemap-button.active {
+    background-color: #007bff; /* Blue background for active state */
+    color: #ffffff; /* White text for active state */
+}
+
+/* Ensure hover does not affect active state */
+.basemap-button.active:hover {
+    background-color: #007bff; /* Keep blue background on hover if active */
+    color: #ffffff; /* Keep white text on hover if active */
+}
+
