@@ -76,7 +76,7 @@
 .chart-title {
     text-align: center;
     margin-bottom: 10px;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #333;
 }
 
@@ -115,11 +115,11 @@
 .carousel-container {
     position: relative;
     width: 100%;
-    margin: 20px auto;
+    margin: 30px auto;
     overflow: hidden;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     text-align: center;
@@ -128,7 +128,7 @@
 .carousel-container h5 {
     text-align: center;
     margin-bottom: 15px;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 .carousel-viewport {
@@ -170,10 +170,14 @@
 }
 
 .company-name {
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-top: 10px;
     color: #333;
-    white-space: normal;
+    white-space: wrap; /* Prevents text from wrapping */
+    overflow: hidden;    /* Hides the overflow */
+    text-overflow: ellipsis; /* Adds '...' to indicate more text */
+    font-size: 14px; /* Adjusts font size for better fit */
+    max-width: 180px; /* Ensures text doesn't overflow container */
 }
 
 .scroll-btn {
@@ -201,6 +205,14 @@
     right: 10px;
 }
 
+@media (max-width: 768px) {
+    .company-name {
+        font-size: 12px; /* Smaller font size for smaller screens */
+    }
+}
+
+
+
 
 
 .statistics-container {
@@ -226,8 +238,8 @@
 }
 
 .statistics-item span {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 2rem;
+    /* font-weight: bold; */
     color: green;
 }
 
@@ -344,3 +356,72 @@
     color: #ffffff; /* Keep white text on hover if active */
 }
 
+
+
+
+/* Container styling */
+.story-section {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    height: 300px;
+}
+
+/* Background image styling */
+.story-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.story-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(2px) brightness(60%);
+}
+
+/* Content styling */
+.story-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    padding: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.story-content h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Paragraph styling */
+.story-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    max-width: 600px; /* Optional: limit width of the paragraph for better readability */
+    text-align: center;
+}
+
+/* Smaller button styling */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 8px 20px; /* Reduced height for the button */
+    font-size: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: auto; /* Adjusted width */
+}

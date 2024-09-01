@@ -51,8 +51,11 @@ var markers = L.markerClusterGroup({
 
 // Example alumni data (random points across the world)
 var alumni = [
-    { "name": "Alumni 1", "type": "job", "location": [41.2995, 69.2401], "properties": { "name": "Alumni 1" } }, // Tashkent
-    { "name": "Alumni 2", "type": "education", "location": [48.8566, 2.3522], "properties": { "name": "Alumni 2" } }, // Paris
+    { "name": "Alumni 1", "type": "job", "location": [41.2995, 69.2401] }, // Tashkent
+    { "name": "Alumni 2", "type": "education", "location": [48.8566, 2.3522] }, // Paris
+    { "name": "Alumni 3", "type": "job", "location": [41.1495, 69.2201], "properties": { "name": "Alumni 1" } }, // Tashkent
+    { "name": "Alumni 4", "type": "job", "location": [41.2235, 69.3451], "properties": { "name": "Alumni 1" } }, // Tashkent
+    { "name": "Alumni 5", "type": "job", "location": [41.1295, 69.2401], "properties": { "name": "Alumni 1" } }, // Tashkent
     // Add more alumni with their details and coordinates here
 ];
 
@@ -60,7 +63,6 @@ var alumni = [
 alumni.forEach(function(alum) {
     var icon = alum.type === "job" ? jobIcon : educationIcon; // Choose icon based on alumni type
     var marker = L.marker(alum.location, { icon: icon });
-    marker.feature = { properties: { name: alum.name } }; // Adding properties to marker
     var popupContent = `<strong>${alum.name}</strong><br>Type: ${alum.type}`;
     marker.bindPopup(popupContent);
     markers.addLayer(marker);
@@ -70,20 +72,20 @@ alumni.forEach(function(alum) {
 map.addLayer(markers);
 
 // Create custom basemap toggle buttons
-var basemapControlDiv = L.control({position: 'topright'});
+var basemapControlDiv = L.control({ position: 'topright' });
 
 basemapControlDiv.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'basemap-control');
 
     // Create OpenStreetMap button
-    var osmButton = createBasemapButton(div, 'Map', function() {
+    var osmButton = createBasemapButton(div, 'Map', function () {
         map.removeLayer(satelliteMap);
         map.addLayer(openStreetMap);
         setActiveButton(osmButton, satelliteButton);
     });
 
     // Create Satellite button
-    var satelliteButton = createBasemapButton(div, 'Satellite', function() {
+    var satelliteButton = createBasemapButton(div, 'Satellite', function () {
         map.removeLayer(openStreetMap);
         map.addLayer(satelliteMap);
         setActiveButton(satelliteButton, osmButton);
@@ -111,23 +113,14 @@ function setActiveButton(activeButton, inactiveButton) {
 
 basemapControlDiv.addTo(map);
 
-// Create and add a search control
-var searchControl = new L.Control.Search({
-    layer: markers,
-    propertyName: 'name', // Matches the name property in properties
-    marker: false,
-    moveToLocation: function(latlng, title, map) {
-        if (latlng) {
-            var zoom = 10; // Set zoom level
-            map.setView(latlng, zoom); // Move map to location
-        } else {
-            console.warn('latlng is undefined for the searched location.');
-        }
-    }
-});
+// Create and add a geocoder control
+L.Control.geocoder({
+    defaultMarkGeocode: false // Disable default marker behavior
+}).on('markgeocode', function(e) {
+    var latlng = e.geocode.center;
+    map.setView(latlng, 10); // Pan and zoom to the found location
+}).addTo(map);
 
-// Add the search control to the map
-searchControl.addTo(map);
 let currentIndex = 0;
 
 function scrollList(direction) {

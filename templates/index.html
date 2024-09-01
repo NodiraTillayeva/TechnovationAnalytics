@@ -14,6 +14,14 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.9/dist/leaflet-search.min.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    
+
+    <!-- Leaflet Geocoder Plugin CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    
+
 
 </head>
 
@@ -74,7 +82,7 @@
             <ul class="company-list">
                 <li class="company-item">
                     <div class="company-logo">
-                        <img src="static/img/logo2.png" alt="TBC Uzbekistan Logo">
+                        <img src="static/img/tbc.png" alt="TBC Uzbekistan Logo">
                     </div>
                     <div class="company-name">TBC Uzbekistan</div>
                 </li>
@@ -86,13 +94,13 @@
                 </li>
                 <li class="company-item">
                     <div class="company-logo">
-                        <img src="static/img/logo2.png" alt="Terranova Uzbekistan Logo">
+                        <img src="static/img/tbc.png" alt="Terranova Uzbekistan Logo">
                     </div>
                     <div class="company-name">Terranova Uzbekistan</div>
                 </li>
                 <li class="company-item">
                     <div class="company-logo">
-                        <img src="static/img/logo2.png" alt="UzAuto Motors Logo">
+                        <img src="static/img/uzauto.jpg" alt="UzAuto Motors Logo">
                     </div>
                     <div class="company-name">UzAuto Motors</div>
                 </li>
@@ -110,7 +118,7 @@
                 </li>
                 <li class="company-item">
                     <div class="company-logo">
-                        <img src="static/img/logo2.png" alt="TUIT имени Мухаммеда аль-Хорезми, Ташкент Logo">
+                        <img src="static/img/uzauto.jpg" alt="TUIT имени Мухаммеда аль-Хорезми, Ташкент Logo">
                     </div>
                     <div class="company-name">TUIT имени Мухаммеда аль-Хорезми, Ташкент</div>
                 </li>
@@ -144,6 +152,26 @@
             </div>
         </div>
     </div>
+
+
+
+    
+    <div class="story-section">
+        <div class="story-background">
+            <!-- Placeholder for the picture in the background -->
+            <img src="static/img/technovationMuza.jpg" alt="Background Image" class="img-fluid">
+        </div>
+        <div class="story-content text-center">
+            <!-- The main heading -->
+            <h2>Tell us your story!</h2>
+            <!-- Sample text -->
+            <p class="lead">Have been mentoring teams or taking part? Want to tell girls of Uzbekistan what you have achieved through our program? Then fill in the form and let us know.</p>
+            <!-- Button linking to Google Forms -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScQOsnHzwYmL02aPM6h4YFnkUn0Rk0w3FwHfiMsXd36DwqRWQ/viewform" target="_blank" class="btn btn-primary">Submit Story</a>
+        </div>
+    </div>
+
+
     
 </div>
 
@@ -171,14 +199,17 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Leaflet JavaScript -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 <!-- Leaflet MarkerCluster JavaScript -->
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 <!-- Leaflet Search JavaScript -->
 <script src="https://unpkg.com/leaflet-search@2.9.9/dist/leaflet-search.min.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <!-- Custom JavaScript -->
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script> <!-- Include your charts.js file -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
