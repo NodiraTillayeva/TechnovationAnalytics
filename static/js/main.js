@@ -49,24 +49,92 @@ var markers = L.markerClusterGroup({
     }
 });
 
-// Example alumni data (random points across the world)
-var alumni = [
-    { "name": "Alumni 1", "type": "job", "location": [41.2995, 69.2401] }, // Tashkent
-    { "name": "Alumni 2", "type": "education", "location": [48.8566, 2.3522] }, // Paris
-    { "name": "Alumni 3", "type": "job", "location": [41.1495, 69.2201], "properties": { "name": "Alumni 1" } }, // Tashkent
-    { "name": "Alumni 4", "type": "job", "location": [41.2235, 69.3451], "properties": { "name": "Alumni 1" } }, // Tashkent
-    { "name": "Alumni 5", "type": "job", "location": [41.1295, 69.2401], "properties": { "name": "Alumni 1" } }, // Tashkent
-    // Add more alumni with their details and coordinates here
-];
+// URL of your Google Sheet JSON (replace with your actual URL)
+const jsonUrl = "https://docs.google.com/spreadsheets/d/1Zq6m433XYNb4PLtf-QytM4p90p2iou8ybVe2fWJcetg/gviz/tq?tqx=out:json";
 
-// Add markers to the MarkerClusterGroup with popups and custom icons
-alumni.forEach(function(alum) {
-    var icon = alum.type === "job" ? jobIcon : educationIcon; // Choose icon based on alumni type
-    var marker = L.marker(alum.location, { icon: icon });
-    var popupContent = `<strong>${alum.name}</strong><br>Type: ${alum.type}`;
-    marker.bindPopup(popupContent);
-    markers.addLayer(marker);
-});
+// Function to geocode the workplace and return coordinates
+async function geocodeLocation(workplace) {
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(workplace)}&format=json&limit=1`;
+    try {
+        const response = await fetch(geocodeUrl);
+        const data = await response.json();
+        if (data && data.length > 0) {
+            return [parseFloat(data[0].lat), parseFloat(data[0].lon)]; // Return latitude and longitude
+        } else {
+            console.warn(`Geocoding failed for ${workplace}`);
+            return null; // Return null if no coordinates found
+        }
+    } catch (error) {
+        console.error('Geocoding error:', error);
+        return null; // Return null if there is an error
+    }
+}
+
+// Fetch JSON data from Google Sheets
+fetch(jsonUrl)
+    .then(response => response.text())  // Get the response as text
+    .then(async text => {
+        const json = JSON.parse(text.substr(47).slice(0, -2));  // Clean up the JSON response
+        const rows = json.table.rows;  // Get the rows of data
+        
+        // Alumni data array to hold processed data
+        var alumni = [];
+
+        // Loop through each row of data and extract participant details
+        for (const row of rows) {
+            const alumData = row.c;
+            
+            // Extract relevant data from each column in the Google Sheet
+            const name = alumData[2] ? alumData[2].v : "N/A";
+            const role = alumData[4] ? alumData[4].v : "N/A";
+            const year = alumData[3] ? alumData[3].v : "N/A";
+            const profession = alumData[8] ? alumData[8].v : "N/A";
+            const education = alumData[9] ? alumData[9].v : "N/A";
+            const workplace = alumData[10] ? alumData[10].v : "N/A";
+            const linkedin = alumData[12] ? alumData[12].v : "N/A";
+            const opinion = alumData[13] ? alumData[13].v : "N/A";
+            
+            // Geocode the workplace to get the coordinates
+            const location = await geocodeLocation(education);
+
+            if (location) {  // Only add the alumni if location is found
+                alumni.push({
+                    name: name,
+                    type: "job",  // Adjust as needed
+                    role: role,
+                    year: year,
+                    profession: profession,
+                    education: education,
+                    workplace: workplace,
+                    linkedin: linkedin,
+                    opinion: opinion,
+                    location: location
+                });
+            }
+        }
+
+        // Add alumni data to the map with popups
+        alumni.forEach(function(alum) {
+            var marker = L.marker(alum.location, { icon: jobIcon });  // Use jobIcon or other icons based on type
+            var popupContent = `
+                <strong>${alum.name}</strong><br>
+                <b>Role:</b> ${alum.role}<br>
+                <b>Year:</b> ${alum.year}<br>
+                <b>Profession:</b> ${alum.profession}<br>
+                <b>Education:</b> ${alum.education}<br>
+                <b>Workplace:</b> ${alum.workplace}<br>
+                <b>LinkedIn:</b> <a href="${alum.linkedin}" target="_blank">${alum.linkedin}</a><br>
+                <b>Opinion:</b> ${alum.opinion}
+            `;
+            
+            marker.bindPopup(popupContent);  // Bind popup content to the marker
+            markers.addLayer(marker);  // Add marker to the map
+        });
+        
+        // Add the marker cluster group to the map
+        map.addLayer(markers);
+    })
+    .catch(error => console.error('Error fetching the JSON data:', error));
 
 // Add the MarkerClusterGroup to the map
 map.addLayer(markers);
