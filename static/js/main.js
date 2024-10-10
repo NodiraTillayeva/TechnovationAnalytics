@@ -52,16 +52,28 @@ var markers = L.markerClusterGroup({
 // URL of your Google Sheet JSON (replace with your actual URL)
 const jsonUrl = "https://docs.google.com/spreadsheets/d/1Zq6m433XYNb4PLtf-QytM4p90p2iou8ybVe2fWJcetg/gviz/tq?tqx=out:json";
 
-// Function to geocode the workplace and return coordinates
-async function geocodeLocation(workplace) {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(workplace)}&format=json&limit=1`;
+// Function to geocode the workplace or education (with country and city) and return coordinates
+async function geocodeLocation(country, city, education, workplace) {
+    let query = '';
+    
+    // Use education if available, otherwise fallback to workplace
+    if (education && education !== "N/A") {
+        query = `${country}, ${city}, ${education}`;
+    } else if (workplace && workplace !== "N/A") {
+        query = `${country}, ${city}, ${workplace}`;
+    } else {
+        console.warn("No valid location data available");
+        return null; // Return null if no valid location data is available
+    }
+
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
     try {
         const response = await fetch(geocodeUrl);
         const data = await response.json();
         if (data && data.length > 0) {
             return [parseFloat(data[0].lat), parseFloat(data[0].lon)]; // Return latitude and longitude
         } else {
-            console.warn(`Geocoding failed for ${workplace}`);
+            console.warn(`Geocoding failed for ${query}`);
             return null; // Return null if no coordinates found
         }
     } catch (error) {
@@ -93,9 +105,11 @@ fetch(jsonUrl)
             const workplace = alumData[10] ? alumData[10].v : "N/A";
             const linkedin = alumData[12] ? alumData[12].v : "N/A";
             const opinion = alumData[13] ? alumData[13].v : "N/A";
+            const country = alumData[14] ? alumData[14].v : "N/A"; // Assuming country is in column 14
+            const city = alumData[15] ? alumData[15].v : "N/A";     // Assuming city is in column 15
             
-            // Geocode the workplace to get the coordinates
-            const location = await geocodeLocation(education);
+            // Geocode using country, city, and either education or workplace
+            const location = await geocodeLocation(country, city, education, workplace);
 
             if (location) {  // Only add the alumni if location is found
                 alumni.push({
